@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The best way to watch a videos.",
   "scripts": {
-    "start": "node index.js"
+    "dev": "nodemon --exec babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,11 @@
   "homepage": "https://github.com/JM-Cheon/wetube-reloaded#readme",
   "dependencies": {
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "nodemon": "^2.0.16"
   }
 }
