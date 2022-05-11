@@ -1,5 +1,5 @@
 import express from "express";
-import { home, search } from "../controllers/videoController";
+import { home } from "../controllers/videoController";
 import { join, login } from "../controllers/userController";
 
 const globalRouter = express.Router();
