@@ -3,7 +3,9 @@ import User from "../models/User";
 
 // global
 export const home = async (req, res) => {
-  const videos = await Video.find({}).sort({ createAt: "desc" });
+  const videos = await Video.find({})
+    .sort({ createAt: "desc" })
+    .populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -20,19 +22,31 @@ export const watch = async (req, res) => {
 
 export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
   const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Editing ${video.title}`, video });
 };
 
 export const postEdit = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
   const video = await Video.exists({ _id: id });
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
   }
 
   await Video.findByIdAndUpdate(id, {
@@ -67,7 +81,7 @@ export const postUpload = async (req, res) => {
     });
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
-    user.save;
+    user.save();
     return res.redirect("/");
   } catch (error) {
     console.log(error);
@@ -80,6 +94,16 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const {
+    user: { _id },
+  } = req.session;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.status(404).render("404", { pageTitle: "Video not found." });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
@@ -92,7 +116,7 @@ export const search = async (req, res) => {
       title: {
         $regex: new RegExp(`${keyword}`, "i"),
       },
-    });
+    }).populate("owner");
   }
   return res.render("search", { pageTitle: "Search", videos });
 };
