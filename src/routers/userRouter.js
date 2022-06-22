@@ -11,7 +11,7 @@ import {
   callbackGithubLogin,
 } from "../controllers/userController";
 import {
-  avartarUpload,
+  avatarUpload,
   protectorMiddleware,
   publicOnlyMiddleware,
 } from "../middlewares";
@@ -23,7 +23,7 @@ userRouter
   .route("/edit")
   .all(protectorMiddleware)
   .get(getEdit)
-  .post(avartarUpload.single("avatar"), postEdit);
+  .post(avatarUpload.single("avatar"), postEdit);
 userRouter
   .route("/change-password")
   .all(protectorMiddleware)

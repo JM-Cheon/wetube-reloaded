@@ -188,7 +188,7 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avataUrl,
+      avatarUrl: file ? "/" + file.path : avatarUrl,
       name,
       email,
       username,
@@ -241,6 +241,9 @@ export const see = async (req, res) => {
   const user = await User.findById(id).populate("videos");
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found." });
+  }
+  if (user.avatarUrl === undefined) {
+    user.avatarUrl = "/uploads/avatars/user.png";
   }
   return res.render("users/profile", {
     pageTitle: `${user.name}'s Profile`,

@@ -9,12 +9,17 @@ header
             if loggedIn
                 li 
                     a(href="/videos/upload") Upload Video
-                li 
-                    a(href=`/users/${loggedInUser._id}`) My Profile
                 li
                     a(href="/users/edit") Edit Profile
                 li 
                     a(href="/users/logout") Logout
+                li 
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.avatarUrl === undefinded
+                            img(src="/uploads/avatars/user.png").header_avatar
+                        else
+                            img(src=loggedInUser.avatarUrl).header_avatar
+
             else
                 li 
                     a(href="/login") Login
