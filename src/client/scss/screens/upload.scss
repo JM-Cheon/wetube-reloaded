@@ -1,0 +1,32 @@
+.upload__container {
+  width: 100%;
+  .upload__video {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    video {
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.recording__btn {
+  border-radius: 5px;
+  padding: 12px 20px;
+  background-color: white !important;
+  color: rgba($color: $red, $alpha: 1) !important;
+  font-weight: 600;
+  text-align: center !important;
+  cursor: pointer;
+  display: block;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
