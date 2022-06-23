@@ -18,7 +18,11 @@ header
                         if loggedInUser.avatarUrl === undefinded
                             img(src="/uploads/avatars/user.png").header_avatar
                         else
-                            img(src=loggedInUser.avatarUrl).header_avatar
+                            if loggedInUser.avatarUrl.includes("github")
+                                img(src=loggedInUser.avatarUrl).header_avatar
+                            else
+                                img(src="/" + loggedInUser.avatarUrl).header_avatar
+
 
             else
                 li 
